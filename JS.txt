@@ -1,0 +1,40 @@
+// ---------- Footer year ----------
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ---------- Mobile nav toggle ----------
+const burger = document.getElementById('burger');
+const navLinksWrap = document.querySelector('.nav__links');
+
+burger.addEventListener('click', () => {
+  navLinksWrap.classList.toggle('open');
+});
+
+// close mobile menu after clicking a link
+document.querySelectorAll('.nav__link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinksWrap.classList.remove('open');
+  });
+});
+
+// ---------- Active link on scroll ----------
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav__link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+sections.forEach(section => observer.observe(section));
+
+// ---------- Nav background on scroll ----------
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.style.boxShadow = window.scrollY > 20 ? '0 4px 20px rgba(0,0,0,0.25)' : 'none';
+});
